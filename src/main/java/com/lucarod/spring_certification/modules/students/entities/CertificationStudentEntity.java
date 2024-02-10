@@ -1,8 +1,19 @@
 package com.lucarod.spring_certification.modules.students.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,10 +21,29 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "certifications")
 public class CertificationStudentEntity {
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
+
+  @Column(name = "student_id")
   private UUID studentId;
+
+  @Column(length = 100)
   private String technology;
-  private int grate;
+
+  @Column(length = 10)
+  private int grade;
+
+  @Column(name = "created_at")
+  @CreationTimestamp
+  private LocalDateTime createdAt;
+
+  @ManyToOne
+  @JoinColumn(name = "student_id", insertable = false, updatable = false)
+  private StudentEntity studentEntity;
+
+  @OneToMany(mappedBy = "certificationId")
   private List<AnswersCertificationsEntity> answersCertificationEntity;
 }
