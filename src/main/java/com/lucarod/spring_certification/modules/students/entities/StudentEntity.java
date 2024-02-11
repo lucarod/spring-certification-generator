@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "students")
+@Builder
 public class StudentEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,5 +38,6 @@ public class StudentEntity {
   private LocalDateTime createdAt;
 
   @OneToMany(mappedBy = "studentEntity")
+  @JsonBackReference
   private List<CertificationStudentEntity> certificationStudentEntity;
 }
